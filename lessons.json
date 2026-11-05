@@ -1,0 +1,110 @@
+{
+ "subject": "Hoá",
+ "lessons": [
+  {
+   "g": "Nền tảng",
+   "t": "Bài 1. Chất – Nguyên tử – Phân tử",
+   "q": "bai=1"
+  },
+  {
+   "g": "Nền tảng",
+   "t": "Bài 2. Hoá trị – Công thức hoá học",
+   "q": "bai=2"
+  },
+  {
+   "g": "Nền tảng",
+   "t": "Bài 3. Phương trình hoá học",
+   "q": "bai=3"
+  },
+  {
+   "g": "Nền tảng",
+   "t": "Bài 4. Mol – Khối lượng – Thể tích khí",
+   "q": "bai=4"
+  },
+  {
+   "g": "Hoá học vô cơ",
+   "t": "Bài 5. Oxit",
+   "q": "bai=5"
+  },
+  {
+   "g": "Hoá học vô cơ",
+   "t": "Bài 6. Axit",
+   "q": "bai=6"
+  },
+  {
+   "g": "Hoá học vô cơ",
+   "t": "Bài 7. Bazơ",
+   "q": "bai=7"
+  },
+  {
+   "g": "Hoá học vô cơ",
+   "t": "Bài 8. Muối",
+   "q": "bai=8"
+  },
+  {
+   "g": "Hoá học vô cơ",
+   "t": "Bài 9. Kim loại",
+   "q": "bai=9"
+  },
+  {
+   "g": "Hoá học vô cơ",
+   "t": "Bài 10. Phi kim",
+   "q": "bai=10"
+  },
+  {
+   "g": "Hoá học hữu cơ",
+   "t": "Bài 11. Hiđrocacbon",
+   "q": "bai=11"
+  },
+  {
+   "g": "Hoá học hữu cơ",
+   "t": "Bài 12. Dẫn xuất của hiđrocacbon",
+   "q": "bai=12"
+  },
+  {
+   "g": "Kỹ năng",
+   "t": "Kỹ năng A. Viết công thức hoá học",
+   "q": "kn=A"
+  },
+  {
+   "g": "Kỹ năng",
+   "t": "Kỹ năng B. Cân bằng phương trình",
+   "q": "kn=B"
+  },
+  {
+   "g": "Kỹ năng",
+   "t": "Kỹ năng C. Tính theo phương trình hoá học",
+   "q": "kn=C"
+  },
+  {
+   "g": "Kỹ năng",
+   "t": "Kỹ năng D. Nhận biết chất",
+   "q": "kn=D"
+  },
+  {
+   "g": "Kỹ năng",
+   "t": "Kỹ năng E. Chuỗi phản ứng",
+   "q": "kn=E"
+  },
+  {
+   "g": "Luyện câu hỏi (cần đạt 70%)",
+   "t": "Luyện 10 câu: Tất cả",
+   "q": "quiz=a&n=10&pass=70"
+  },
+  {
+   "g": "Luyện câu hỏi (cần đạt 70%)",
+   "t": "Luyện 10 câu: Hoá vô cơ",
+   "q": "quiz=v&n=10&pass=70"
+  },
+  {
+   "g": "Luyện câu hỏi (cần đạt 70%)",
+   "t": "Luyện 10 câu: Hoá hữu cơ",
+   "q": "quiz=h&n=10&pass=70"
+  },
+  {
+   "g": "Luyện câu hỏi (cần đạt 70%)",
+   "t": "Luyện 10 câu: Tính toán",
+   "q": "quiz=c&n=10&pass=70"
+  }
+ ]
+}
