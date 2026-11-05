@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi"><head><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
-<script src="sso.js"></script><meta charset="utf-8">
+<html lang="vi"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Hoá học vui – Lớp 8 & 9</title>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;800&family=Nunito:wght@400;700&display=swap" rel="stylesheet">
@@ -91,7 +90,7 @@ select{padding:8px;border:3px solid var(--ink);border-radius:10px;background:var
 <section id="t3"><div class="card" id="quiz"></div></section>
 <section id="t5"><div class="card" id="rs"></div></section>
 </main>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.58.0/dist/umd/supabase.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.57.4/dist/umd/supabase.js"></script>
 <script>
 const $=s=>document.querySelector(s);
 const sub=s=>s.replace(/([A-Za-z\)])(\d+)/g,(m,a,d)=>a+[...d].map(x=>'₀₁₂₃₄₅₆₇₈₉'[x]).join(''));
@@ -324,25 +323,32 @@ $('#sk').innerHTML=`<p class="hint">Năm kỹ năng lõi của Hoá THCS. Học 
 <details class="card"><summary><span>🔍</span> D. Nhận biết chất</summary><ul><li>Axit: quỳ tím hoá đỏ. Bazơ tan: quỳ tím hoá xanh, phenolphtalein hồng.</li><li>CO2: làm đục nước vôi trong. H2: cháy nổ nhẹ. O2: làm que đóm còn tàn đỏ bùng cháy.</li><li>Gốc clorua: AgNO3 → AgCl trắng. Gốc sunfat: BaCl2 → BaSO4 trắng.</li><li>Cu²⁺: NaOH → kết tủa xanh lam. Fe³⁺: NaOH → kết tủa nâu đỏ.</li><li>Etilen, axetilen: làm mất màu dung dịch brom. Tinh bột: iot → xanh tím. Glucozơ: tráng bạc.</li><li>Axit axetic: quỳ tím hoá đỏ, sủi bọt với CaCO3. Rượu etylic: sủi bọt khí với Na.</li></ul><p class="tip">💡 Dựa vào màu, trạng thái, kết tủa, khí hoặc quỳ tím. Chọn thuốc thử cho mỗi chất cho ra hiện tượng khác nhau.</p></details>
 <details class="card"><summary><span>🧩</span> E. Chuỗi phản ứng</summary><p>Xác định loại chất từng mắt xích rồi chọn phản ứng phù hợp. Thử tự viết trước khi mở đáp án.</p><details><summary><b>Cu → CuO → CuSO4 → Cu(OH)2 → CuO</b></summary><p>${sub('(1) 2Cu + O2 → 2CuO (t°)<br>(2) CuO + H2SO4 → CuSO4 + H2O<br>(3) CuSO4 + 2NaOH → Cu(OH)2↓ + Na2SO4<br>(4) Cu(OH)2 → CuO + H2O (t°)')}</p></details><details><summary><b>C → CO2 → CaCO3 → CO2</b></summary><p>${sub('(1) C + O2 → CO2 (t°)<br>(2) CO2 + Ca(OH)2 → CaCO3↓ + H2O<br>(3) CaCO3 + 2HCl → CaCl2 + H2O + CO2↑')}</p></details><details><summary><b>C2H4 → C2H5OH → CH3COOH → CH3COOC2H5</b></summary><p>${sub('(1) C2H4 + H2O → C2H5OH (axit, t°)<br>(2) C2H5OH + O2 → CH3COOH + H2O (men giấm)<br>(3) CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (H2SO4 đặc, t°)')}</p></details></details>`;fa();bal()}
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-/* ===== Kết nối Việc nhà (cùng Supabase) ===== */
-const SB_URL='https://fpglnulblraiviiypaeq.supabase.co',SB_KEY='sb_publishable_-XHUDFaDuyjN3UEto0bdwQ_amS0Ym1I',VN='https://giadinhsumhop.github.io/Viec-nha/';
-let sb=null;try{sb=window.supabase?supabase.createClient(SB_URL,SB_KEY):null}catch(e){}
+/* ===== Kết nối hệ thống "Ai vui hơn học sinh THCS" (đăng nhập chung, cùng Supabase) ===== */
+const SB_URL='https://ipurdwafbuqilgwwlkic.supabase.co',SB_KEY='sb_publishable_-UPds1t0kDY5VKlWOZHncQ_kJg-X0CJ',VN='https://aivuihonhocsinhthcs.vercel.app/',SUBJ='hoa-hoc';
+let sb=null,ME=null,NAME='',MEM={};
 const P=new URLSearchParams(location.search),TASK=P.get('task'),PASS=+P.get('pass')||70;
-let ME=null,NAME='',MEM={};
+function jwt(t){try{return JSON.parse(atob(t.split('.')[1].replace(/-/g,'+').replace(/_/g,'/')))}catch(e){return null}}
+(function(){ /* nhận phiên đăng nhập từ app chính qua #at=..., chỉ dùng access token (khoảng 1 giờ) */
+  const h=new URLSearchParams(location.hash.slice(1));let at=h.get('at');
+  if(location.hash.indexOf('at=')>=0)history.replaceState(null,'',location.pathname+location.search);
+  try{if(at)sessionStorage.setItem('avh_at',at);else at=sessionStorage.getItem('avh_at')}catch(e){}
+  const p=at&&jwt(at);
+  if(p&&p.exp*1000>Date.now()&&window.supabase){
+    try{sb=supabase.createClient(SB_URL,SB_KEY,{global:{headers:{Authorization:'Bearer '+at}},auth:{persistSession:false,autoRefreshToken:false,detectSessionInUrl:false}});ME=p.sub}catch(e){sb=null;ME=null}
+  }
+})();
 const SKN=['Viết công thức','Cân bằng phương trình','Tính theo PTHH','Nhận biết chất','Chuỗi phản ứng'];
 async function acct(){const a=$('#acct');a.style.display='block';
-if(!sb){a.textContent='Chế độ học tự do (chưa kết nối Việc nhà).';return}
-try{const {data:{session}}=await sb.auth.getSession();
-if(!session){a.innerHTML=`Bạn chưa đăng nhập nên điểm chưa được lưu. <a href="${VN}">Mở Việc nhà để đăng nhập</a> rồi quay lại.`;return}
-ME=session.user.id;const {data}=await sb.from('members').select('id,name');(data||[]).forEach(m=>MEM[m.id]=m.name);NAME=MEM[ME]||'bạn';
+if(!sb||!ME){a.innerHTML=`Bạn chưa đăng nhập nên điểm chưa được lưu. <a href="${VN}">Mở Việc nhà để đăng nhập</a>, rồi bấm 📚 Học cùng → Hoá học vui.`;return}
+try{const {data}=await sb.from('profiles').select('id,name');(data||[]).forEach(m=>MEM[m.id]=m.name);NAME=MEM[ME]||'bạn';
 a.innerHTML=`👋 Xin chào <b>${esc(NAME)}</b>! Điểm của bạn sẽ được lưu. <a href="${VN}">← Về Việc nhà</a>`}catch(e){a.textContent='Không kết nối được máy chủ. Bạn vẫn học bình thường nhưng điểm sẽ không được lưu.'}}
 async function save(topic,score,total,taskDone){
 if(!sb||!ME)return 'Chưa đăng nhập nên chưa lưu được.';
-try{const r=await sb.from('hoa_results').insert({topic,score,total,task_id:TASK});if(r.error)throw r.error;
-if(TASK&&taskDone){const u=await sb.from('tasks').update({done:true,done_at:new Date().toISOString()}).eq('id',TASK);if(u.error)throw u.error;return 'Đã lưu kết quả và báo hoàn thành cho Việc nhà ✅'}
-return 'Đã lưu kết quả.'}catch(e){return 'Lưu lỗi: '+e.message+' (đã chạy file SQL chưa?)'}}
+try{const r=await sb.from('subject_scores').upsert({user_id:ME,subject:SUBJ,item:topic,score:total==null?1:score,max:total==null?1:total,updated_at:new Date().toISOString()},{onConflict:'user_id,subject,item'});if(r.error)throw r.error;
+if(TASK&&taskDone){const u=await sb.from('tasks').update({done:true}).eq('id',TASK);if(u.error)throw u.error;return 'Đã lưu kết quả và báo hoàn thành cho Việc nhà ✅'}
+return 'Đã lưu kết quả.'}catch(e){return 'Lưu lỗi: '+e.message+' (đã chạy scores.sql chưa?)'}}
 async function finish(btn,topic){btn.disabled=true;const m=await save(topic,null,null,true);btn.parentElement.nextElementSibling.textContent=m;if(m.includes('✅'))spawn('🎉',8)}
-/* ===== Đề thi thật (câu hỏi phụ huynh đã duyệt trong Việc nhà) ===== */
+/* ===== Đề thi thật (cần bảng exam_questions; hệ thống mới chưa có nên mục này sẽ trống) ===== */
 const SUBJECT='Hoá';let EXQ=null,EXA=null,curExam=null;ST.x='Đề thi thật';
 async function exLoad(){if(EXQ)return EXQ;if(!sb)return EXQ=[];try{const r=await sb.from('exam_questions').select('id,exam_id,lesson,q,options,answer,explain').eq('subject',SUBJECT).eq('status','approved');EXQ=r.data||[]}catch(e){EXQ=[]}return EXQ}
 const exQ=r=>{const o=[...r.options],c=o.splice(r.answer,1)[0];return ['x',r.q,[c,...o],0,r.explain||'']};
@@ -363,10 +369,10 @@ else if(k&&'ABCDE'.includes(k)&&k.length==1){const i='ABCDE'.indexOf(k),d=[...$(
 else if(q&&ST[q]){qt=q;qn=+P.get('n')||10;a.style.display='block';a.innerHTML=`📌 <b>Bài được giao:</b> làm ${qn} câu ${ST[q]}, cần đạt ${PASS}% để hoàn thành.`;go('t3');begin()}}
 function topicName(t){const [k,v]=t.split('-');return k=='exam'?'Đề thi #'+v:k=='bai'?'Bài '+v+(N[v-1]?': '+N[v-1][2]:''):k=='kn'?'Kỹ năng '+v+': '+(SKN['ABCDE'.indexOf(v)]||''):'Luyện '+(ST[v]||v)}
 async function rs(){const el=$('#rs');
-if(!sb||!ME){el.innerHTML='<h3>Kết quả</h3><p class="hint">Đăng nhập (qua Việc nhà) để xem kết quả của cả nhà.</p>';return}
+if(!sb||!ME){el.innerHTML='<h3>Kết quả</h3><p class="hint">Đăng nhập (qua Việc nhà) để xem kết quả. Phụ huynh xem được cả điểm của các bạn trong nhà.</p>';return}
 el.innerHTML='<p class="hint">Đang tải…</p>';
-try{const {data,error}=await sb.from('hoa_results').select('*').not('topic','like','anh:%').not('topic','like','tin:%').not('topic','like','ly:%').not('topic','like','toan:%').order('created_at',{ascending:false}).limit(40);if(error)throw error;
-el.innerHTML='<h3>Kết quả gần đây</h3>'+((data||[]).map(r=>`<p style="margin:8px 0"><b>${esc(MEM[r.user_id]||'Ai đó')}</b> · ${esc(topicName(r.topic))}${r.total?` · <b>${r.score}/${r.total}</b>`:' · ✅ đã học'}<br><span class="hint">${new Date(r.created_at).toLocaleString('vi-VN')}</span></p>`).join('')||'<p class="hint">Chưa có kết quả nào.</p>')}catch(e){el.innerHTML='<p class="hint">Không tải được: '+esc(e.message)+'</p>'}}
+try{const {data,error}=await sb.from('subject_scores').select('*').eq('subject',SUBJ).order('updated_at',{ascending:false}).limit(40);if(error)throw error;
+el.innerHTML='<h3>Kết quả gần đây</h3>'+((data||[]).map(r=>`<p style="margin:8px 0"><b>${esc(MEM[r.user_id]||'Ai đó')}</b> · ${esc(topicName(r.item))}${/^(bai|kn)-/.test(r.item)?' · ✅ đã học':` · <b>${r.score}/${r.max}</b>`}<br><span class="hint">${new Date(r.updated_at).toLocaleString('vi-VN')}</span></p>`).join('')||'<p class="hint">Chưa có kết quả nào.</p>')}catch(e){el.innerHTML='<p class="hint">Không tải được: '+esc(e.message)+'</p>'}}
 document.querySelector('[data-t=t5]').addEventListener('click',rs);
 toggles();les();sk();lab();qz();assigned();acct();
 </script></body></html>
