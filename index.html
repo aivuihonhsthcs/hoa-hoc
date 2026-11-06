@@ -31,17 +31,32 @@ section{display:none;margin-top:10px}section.on{display:block}
 .chip{padding:7px 12px;border-radius:999px;border:3px solid var(--ink);background:var(--card);font-weight:800}
 .chip[aria-pressed=true]{background:var(--pink);color:#fff}
 .act{margin-top:10px;padding:8px;border-radius:10px;background:var(--kl);font-size:.9rem;text-align:center}
-.stage{display:flex;justify-content:center;align-items:flex-end;height:200px}
+.stage{display:flex;justify-content:center;align-items:flex-end;height:250px;position:relative}
 .beaker{width:140px;height:170px;border:4px solid var(--ink);border-top:none;border-radius:0 0 30px 30px;position:relative;overflow:hidden;background:rgba(150,200,230,.15)}
 .beaker.sk{animation:sk .35s 4}@keyframes sk{25%{transform:translateX(-7px) rotate(-3deg)}75%{transform:translateX(7px) rotate(3deg)}}
-.liquid{position:absolute;inset:auto 0 0 0;height:58%;background:#bfe6ef;transition:background 1s}
+.liquid{position:absolute;inset:auto 0 0 0;height:58%;background:#bfe6ef;transition:background 1s}.liquid::before{content:'';position:absolute;top:-7px;left:-20%;width:140%;height:14px;background:inherit;border-radius:50%;animation:wv 2.2s ease-in-out infinite alternate}@keyframes wv{to{transform:translateX(12%)}}
 .ppt{position:absolute;inset:auto 0 0 0;height:0;transition:height 1.4s .3s}
 .face{position:absolute;left:0;right:0;top:62px;text-align:center;font-size:2.6rem;z-index:2;transition:transform .2s}
 .bub{position:absolute;bottom:0;width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.9);animation:up 1.5s infinite ease-in}
 @keyframes up{to{transform:translateY(-140px);opacity:0}}
 .pt{position:fixed;bottom:34%;font-size:1.7rem;pointer-events:none;animation:pf 1.5s forwards;z-index:9}
 @keyframes pf{to{transform:translateY(-170px) rotate(50deg);opacity:0}}
-@media (prefers-reduced-motion:reduce){.bub,.pt,.beaker.sk{animation:none}}
+@media (prefers-reduced-motion:reduce){.bub,.pt,.beaker.sk,.liquid::before,.flame.on,.beaker.jump,.shk,.mf.hop{animation:none}.dropc,.pop,.dot2{display:none}}
+.mas{display:flex;gap:10px;align-items:center;margin-bottom:6px}.mf{font-size:2.4rem;line-height:1}.mf.hop{animation:jp .5s}
+.sp2{position:relative;flex:1;background:var(--bg);border:3px solid var(--ink);border-radius:14px;padding:6px 10px;font-weight:700;font-size:.93rem}
+.sp2::before{content:'';position:absolute;left:-10px;top:14px;border:7px solid transparent;border-right:8px solid var(--ink);border-left:0}
+.shine{position:absolute;left:12px;top:8px;width:9px;height:115px;background:linear-gradient(rgba(255,255,255,.75),transparent);border-radius:8px;opacity:.7;pointer-events:none;z-index:3}
+.balloon{position:absolute;left:50%;bottom:158px;font-size:3rem;line-height:1;transform:translateX(-50%) scale(0);transform-origin:50% 100%;transition:transform 2.2s cubic-bezier(.3,1.6,.5,1);z-index:1}.balloon.inflate{transform:translateX(-50%) scale(1.5)}
+.flame{position:absolute;left:50%;bottom:150px;font-size:2.4rem;line-height:1;opacity:0;transform:translateX(-50%) scale(.3);z-index:4;pointer-events:none}
+.flame.on{opacity:1;animation:fl .22s infinite alternate}@keyframes fl{to{transform:translateX(-50%) scale(1.3) rotate(5deg)}}
+.therm{position:absolute;right:8%;bottom:14px;font-size:2rem;opacity:0;transition:all .8s}.therm.hot{opacity:1;transform:scale(1.4) rotate(14deg);filter:drop-shadow(0 0 8px #ff3b3b)}
+.beaker.jump{animation:jp .55s}@keyframes jp{30%{transform:translateY(-24px) scale(1.06)}60%{transform:translateY(0) scale(.95,1.05)}}
+.shk{animation:shk .5s}@keyframes shk{20%{transform:translate(-6px,3px)}40%{transform:translate(6px,-3px)}60%{transform:translate(-4px,2px)}80%{transform:translate(4px,-2px)}}
+.dropc{position:absolute;top:0;padding:2px 9px;border:3px solid var(--ink);border-radius:999px;background:var(--card);font-weight:800;font-size:.9rem;animation:dr .75s ease-in forwards;z-index:5}
+@keyframes dr{to{top:48%;opacity:.1;transform:scale(.6)}}
+.dot2{position:absolute;top:35%;width:8px;height:8px;border-radius:50%;animation:fd 1.4s ease-in forwards}@keyframes fd{to{top:90%;opacity:.95}}
+.pop{position:fixed;left:50%;top:36%;font:800 3rem 'Baloo 2',sans-serif;color:var(--pink);-webkit-text-stroke:2px var(--ink);text-shadow:3px 3px 0 var(--ink);transform:translate(-50%,-50%) scale(0);animation:wp 1.2s forwards;z-index:30;pointer-events:none;white-space:nowrap}
+@keyframes wp{20%{transform:translate(-50%,-50%) scale(1.3) rotate(-6deg)}65%{transform:translate(-50%,-50%) scale(1) rotate(3deg);opacity:1}100%{transform:translate(-50%,-80%) scale(1);opacity:0}}
 .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
 .btn{padding:11px 18px;border:3px solid var(--ink);border-radius:12px;background:var(--acc);color:#fff;font-weight:800;box-shadow:3px 3px 0 var(--sh)}
 .btn.alt{background:var(--card);color:var(--ink)}.btn:disabled{opacity:.45}
@@ -83,8 +98,9 @@ select{padding:8px;border:3px solid var(--ink);border-radius:10px;background:var
 
 <section id="t2"><div class="tg"></div>
 <div class="card"><h3 id="lt"></h3><p class="hint">Chọn 2 chất rồi bấm Trộn. Có cặp phản ứng, có cặp thì không!</p><div class="chips" id="chips"></div><div class="act" id="act"></div></div>
-<div class="card"><div class="stage"><div class="beaker" id="bk"><div class="face" id="face">🙂</div><div class="liquid" id="liq"></div><div class="ppt" id="ppt"></div></div></div>
-<div class="row"><button class="btn" id="mix" disabled>Trộn</button><button class="btn alt" id="rst">Làm lại</button></div>
+<div class="card" id="labc"><div class="mas"><span class="mf" id="mf">🧑‍🔬</span><div class="sp2" id="sp2">Chọn 2 chất cho mình nhé!</div></div>
+<div class="stage" id="stg"><div class="balloon" id="bal">🎈</div><div class="flame" id="fl">🔥</div><div class="beaker" id="bk"><div class="face" id="face">🙂</div><div class="liquid" id="liq"></div><div class="ppt" id="ppt"></div><div class="shine"></div></div><div class="therm" id="th">🌡️</div></div>
+<div class="row"><button class="btn" id="mix" disabled>Trộn</button><button class="btn alt" id="rst">Làm lại</button><button class="btn alt" id="snd" style="flex:none" aria-label="Âm thanh">🔊</button></div>
 <div id="res"></div></div></section>
 
 <section id="t3"><div class="card" id="quiz"></div></section>
@@ -143,30 +159,87 @@ const R=[
 {m:'h',r:['C6H6','Br2'],eq:'C6H6 + Br2 → C6H5Br + HBr (Fe, t°)',t:'Phản ứng thế',fx:'gas',col:'#ffd7a0',f:'😮',o:'Có bột sắt xúc tác, màu brom nhạt dần, khí HBr thoát ra.',n:'Vòng benzen bền nên khó cộng, chủ yếu xảy ra phản ứng thế.'},
 {m:'h',r:['C6H6','O2'],eq:'2C6H6 + 15O2 → 12CO2 + 6H2O (t°)',t:'Cháy',fx:'fire',col:'#bfe6ef',f:'😎',o:'Benzen cháy với ngọn lửa sáng, nhiều muội than.',n:'Benzen giàu cacbon nên cháy không hoàn toàn, sinh muội than.'},
 {m:'h',r:['CH3COOH','C2H5OH'],eq:'CH3COOH + C2H5OH ⇌ CH3COOC2H5 + H2O (H2SO4 đặc, t°)',t:'Este hoá',fx:'smell',col:'#ffe9b0',f:'😋',o:'Tạo chất lỏng nhẹ nổi lên, có mùi thơm như trái cây (etyl axetat).',n:'Phản ứng thuận nghịch, cần H2SO4 đặc làm xúc tác và hút nước.'},
-{m:'h',r:['Chất béo','NaOH'],eq:'(RCOO)3C3H5 + 3NaOH → 3RCOONa + C3H5(OH)3 (t°)',t:'Xà phòng hoá',fx:'foam',col:'#fff1cf',f:'🧼',o:'Đun nóng, hỗn hợp dần đồng nhất, tạo xà phòng (muối natri của axit béo) và glixerol.',n:'Chất béo thuỷ phân trong kiềm tạo xà phòng. Đây là cách nấu xà phòng.'}
+{m:'h',r:['Chất béo','NaOH'],eq:'(RCOO)3C3H5 + 3NaOH → 3RCOONa + C3H5(OH)3 (t°)',t:'Xà phòng hoá',fx:'foam',col:'#fff1cf',f:'🧼',o:'Đun nóng, hỗn hợp dần đồng nhất, tạo xà phòng (muối natri của axit béo) và glixerol.',n:'Chất béo thuỷ phân trong kiềm tạo xà phòng. Đây là cách nấu xà phòng.'},
+{m:'v',r:['Mg','O2'],eq:'2Mg + O2 → 2MgO (t°)',t:'Cháy',fx:'fire',col:'#f3f3f3',f:'🤩',o:'Mg cháy sáng chói, toả nhiều nhiệt, tạo chất rắn trắng MgO.',n:'Ngọn lửa magie rất chói nên được dùng làm pháo sáng.'},
+{m:'v',r:['Al','O2'],eq:'4Al + 3O2 → 2Al2O3 (t°)',t:'Cháy',fx:'fire',col:'#f3f3f3',f:'🤩',o:'Nhôm (dạng bột) cháy sáng, toả nhiều nhiệt, tạo Al2O3 màu trắng.',n:'Nhôm miếng có màng oxit bảo vệ nên khó cháy, nhôm bột cháy rất mạnh.'},
+{m:'v',r:['Zn','CuSO4'],eq:'Zn + CuSO4 → ZnSO4 + Cu↓',t:'Kim loại đẩy kim loại',fx:'ppt',pc:'#c4693a',col:'#d3eef2',f:'🤩',o:'Chất rắn đỏ (Cu) bám vào kẽm, màu xanh của dung dịch nhạt dần.',n:'Zn mạnh hơn Cu nên đẩy Cu ra khỏi muối.'},
+{m:'v',r:['Al','CuSO4'],eq:'2Al + 3CuSO4 → Al2(SO4)3 + 3Cu↓',t:'Kim loại đẩy kim loại',fx:'ppt',pc:'#c4693a',col:'#d3eef2',f:'🤩',o:'Chất rắn đỏ (Cu) bám vào nhôm, màu xanh của dung dịch nhạt dần.',n:'Al mạnh hơn Cu nên đẩy Cu ra khỏi muối.'},
+{m:'v',r:['Fe','HCl'],eq:'Fe + 2HCl → FeCl2 + H2↑',t:'Khí thoát ra',fx:'gas',col:'#d6efd9',f:'😃',o:'Sắt tan dần, sủi bọt khí H2, dung dịch chuyển màu lục nhạt.',n:'Sắt đứng trước H nên đẩy được H khỏi axit (tạo muối sắt (II)).'},
+{m:'v',r:['Zn','H2SO4'],eq:'Zn + H2SO4 → ZnSO4 + H2↑',t:'Khí thoát ra',fx:'gas',col:'#e8f2f4',f:'😃',o:'Kẽm tan dần, sủi bọt khí H2.',n:'H2SO4 loãng tác dụng với kim loại đứng trước H.'},
+{m:'v',r:['Mg','H2SO4'],eq:'Mg + H2SO4 → MgSO4 + H2↑',t:'Khí thoát ra',fx:'gas',col:'#e8f2f4',f:'😃',o:'Mg tan nhanh, sủi bọt mạnh khí H2.',n:'Mg hoạt động mạnh nên phản ứng nhanh với axit.'},
+{m:'v',r:['Fe','H2SO4'],eq:'Fe + H2SO4 → FeSO4 + H2↑',t:'Khí thoát ra',fx:'gas',col:'#d6efd9',f:'😃',o:'Sắt tan dần, sủi bọt khí H2, dung dịch lục nhạt.',n:'Dùng H2SO4 loãng. Với H2SO4 đặc nguội, sắt không phản ứng.'},
+{m:'v',r:['Al','HCl'],eq:'2Al + 6HCl → 2AlCl3 + 3H2↑',t:'Khí thoát ra',fx:'gas',col:'#e8f2f4',f:'😃',o:'Nhôm tan dần, sủi bọt khí H2.',n:'Nhôm đứng trước H trong dãy hoạt động.'},
+{m:'v',r:['Na','HCl'],eq:'2Na + 2HCl → 2NaCl + H2↑',t:'Khí thoát ra',fx:'gas',col:'#f1ecff',f:'😲',o:'Natri phản ứng mãnh liệt, tan nhanh, nhiều khí H2 và toả nhiều nhiệt.',n:'Rất nguy hiểm khi làm thật, chỉ xem trên màn hình thôi nhé!'},
+{m:'v',r:['CuO','H2SO4'],eq:'CuO + H2SO4 → CuSO4 + H2O',t:'Oxit bazơ + axit',fx:'none',col:'#7fd0f5',f:'😃',o:'Chất rắn đen CuO tan dần, dung dịch chuyển màu xanh lam.',n:'Oxit bazơ + axit → muối + nước.'},
+{m:'v',r:['Ca(OH)2','HCl'],eq:'Ca(OH)2 + 2HCl → CaCl2 + 2H2O',t:'Trung hoà',fx:'none',col:'#bfe6ef',f:'😌',o:'Nước vôi trong hết đục (nếu có), dung dịch ấm lên.',n:'Bazơ + axit → muối + nước.'},
+{m:'v',r:['Ca(OH)2','H2SO4'],eq:'Ca(OH)2 + H2SO4 → CaSO4↓ + 2H2O',t:'Kết tủa',fx:'ppt',pc:'#f5f5f5',col:'#e9f5f2',f:'😮',o:'Xuất hiện kết tủa trắng CaSO4 (ít tan), dung dịch vẩn đục.',n:'CaSO4 ít tan trong nước nên tạo vẩn đục trắng.'},
+{m:'v',r:['BaCl2','CuSO4'],eq:'BaCl2 + CuSO4 → BaSO4↓ + CuCl2',t:'Kết tủa',fx:'ppt',pc:'#f6f6f6',col:'#8fe0c0',f:'🤩',o:'Kết tủa trắng BaSO4, dung dịch chuyển màu xanh lá do CuCl2.',n:'Gốc sunfat gặp bari luôn cho kết tủa trắng không tan.'},
+{m:'v',r:['AgNO3','BaCl2'],eq:'BaCl2 + 2AgNO3 → 2AgCl↓ + Ba(NO3)2',t:'Kết tủa',fx:'ppt',pc:'#fafafa',col:'#e9f5f2',f:'🤩',o:'Xuất hiện kết tủa trắng AgCl.',n:'Gốc clorua gặp bạc nitrat cho kết tủa trắng.'},
+{m:'v',r:['CuO','H2'],eq:'CuO + H2 → Cu + H2O (t°)',t:'Khử oxit',fx:'ppt',pc:'#c4693a',col:'#f2f6f8',f:'😮',o:'Bột đen CuO chuyển dần thành chất rắn đỏ (Cu), có hơi nước đọng lại.',n:'H2 là chất khử, lấy oxi của CuO.'},
+{m:'v',r:['CaO','HCl'],eq:'CaO + 2HCl → CaCl2 + H2O',t:'Toả nhiệt',fx:'steam',col:'#eaf3f5',f:'🥵',o:'Vôi sống tan dần, dung dịch nóng lên.',n:'Oxit bazơ + axit → muối + nước, toả nhiệt.'},
+{m:'v',r:['CO2','NaOH'],eq:'CO2 + 2NaOH → Na2CO3 + H2O',t:'Oxit axit + bazơ',fx:'none',col:'#bfe6ef',f:'😌',o:'Không thấy hiện tượng rõ, khí CO2 bị hấp thụ.',n:'Người ta dùng dung dịch kiềm để loại khí CO2.'},
+{m:'v',r:['H2','Cl2'],eq:'H2 + Cl2 → 2HCl (ánh sáng)',t:'Nổ',fx:'boom',col:'#e9f5d0',f:'😵',o:'Hỗn hợp nổ khi có ánh sáng mạnh, tạo khí HCl.',n:'Khí HCl tan vào nước tạo dung dịch axit clohiđric.'},
+{m:'h',r:['CH3COOH','Na'],eq:'2CH3COOH + 2Na → 2CH3COONa + H2↑',t:'Khí thoát ra',fx:'gas',col:'#eaf3f5',f:'😃',o:'Na tan dần trong axit, sủi bọt khí H2.',n:'Axit axetic có tính axit nên tác dụng với kim loại mạnh.'}
 ];
-let sel=[];const chips=$('#chips');
+let sel=[],mt,SND=true,AC=null;const chips=$('#chips');
+const JK={gas:['Sủi bọt như ly soda của mình! 🥤','Khí H₂ nhẹ nhất vũ trụ, bay lên nhanh hơn cả điểm 10!','Ôi, cốc nước biết thở ra bong bóng!','Nhìn quả bóng bay phồng lên chưa? Khí đang tăng đó!'],
+ppt:['Chất rắn mới xuất hiện, lặng lẽ như bạn ngồi bàn cuối 😄','Lắng, lắng... Ma thuật đang hiện ra ở đáy cốc!','Tèn ten! Kết tủa đã có mặt!'],
+fire:['Nóng quá! Ngoài đời nhớ đứng xa và có thầy cô nhé 🔥','Cháy rồi, cháy rồi! Cầu cứu... lính cứu hoả ảo!','Phản ứng toả nhiệt nhiều quá, ai mang kem tới đây! 🍦'],
+boom:['BÙM! Tai mình ù cả rồi! 🙉','Ngoài đời thật tuyệt đối đừng thử nhé!','Hỗn hợp này nổ còn mạnh hơn bắp rang bơ!'],
+fade:['Màu đi đâu mất rồi? Ảo thuật! 🪄','Bye bye màu da cam, hẹn không gặp lại!'],
+steam:['Nóng hổi như nồi phở buổi sáng 🍜','Cốc nóng ran rồi, đừng sờ tay vào nhé!'],
+smell:['Thơm như kẹo dứa 🍍 Este đó!','Hoá học còn làm được cả nước hoa!'],
+foam:['Xà phòng tự nấu, đẹp hơn mua ngoài tiệm!','Bọt bay lên như sân khấu ca nhạc! 🫧'],
+none:['Hai chất này gặp nhau êm ru, chỉ ấm lên chút xíu 😌','Phản ứng lặng lẽ như bạn học bài lúc 11 giờ đêm.'],
+no:['Hai chất này không chơi với nhau 🙅','Chẳng có gì xảy ra. Khoa học cũng cần thử rồi sai!','Bạn vừa tìm ra cặp "không ưa nhau"!']};
+const SJ={'H2O+Na':'Natri chạy vòng vòng như bị ma rượt! 💨','Cl2+Na':'Hai chất cực độc ghép lại thành muối ăn. Hoá học là ảo thuật!','AgNO3+Cu':'Dây đồng mọc "tuyết bạc" lấp lánh ✨','Fe+O2':'Sắt cháy thành pháo hoa mini! 🎆','H2+O2':'Hai khí vô hình gặp nhau thành tiếng nổ thật to!','CuSO4+NaOH':'Xanh lam đẹp như nước biển nhiệt đới 🌊','CaO+H2O':'Vôi sống uống nước là sốt cao liền! 🤒','Br2+C2H4':'Brom bị etilen "ăn mất" màu luôn!','CH3COOH+CaCO3':'Giấm làm tan vỏ trứng, ai ngờ! 🥚','CO2+Ca(OH)2':'Thở vào nước vôi trong là nó đục ngay, thử đi!','Mg+O2':'Chói như đèn pin ngàn watt, đừng nhìn thẳng! 😎','H2+Cl2':'Hai khí gặp nhau là bùng nổ như cặp đôi cãi nhau!'};
+function say(t,e){const f=$('#mf');$('#sp2').textContent=t;f.textContent=e||'🧑‍🔬';f.classList.remove('hop');void f.offsetWidth;f.classList.add('hop')}
+function beep(t){if(!SND)return;try{AC=AC||new(window.AudioContext||window.webkitAudioContext)();const c=AC,n0=c.currentTime;
+const noise=(d,f)=>{const b=c.createBuffer(1,c.sampleRate*d,c.sampleRate),a=b.getChannelData(0);for(let i=0;i<a.length;i++)a[i]=(Math.random()*2-1)*(1-i/a.length);const s=c.createBufferSource();s.buffer=b;const fl=c.createBiquadFilter();fl.type='bandpass';fl.frequency.value=f;const g=c.createGain();g.gain.value=.25;s.connect(fl);fl.connect(g);g.connect(c.destination);s.start()};
+const tone=(f,d,ty,v,sl)=>{const o=c.createOscillator(),g=c.createGain();o.type=ty;o.frequency.setValueAtTime(f,n0);if(sl)o.frequency.exponentialRampToValueAtTime(sl,n0+d);g.gain.setValueAtTime(v,n0);g.gain.exponentialRampToValueAtTime(.001,n0+d);o.connect(g);g.connect(c.destination);o.start();o.stop(n0+d)};
+if(t=='gas')noise(1.2,3000);else if(t=='boom'){noise(.9,200);tone(120,.6,'sine',.5,40)}else if(t=='fire')noise(.8,900);else if(t=='ppt')tone(500,.25,'sine',.25,200);else if(t=='drop')tone(700,.12,'triangle',.15,350);else if(t=='no')tone(200,.35,'sawtooth',.12,120);else tone(660,.3,'triangle',.2,990)}catch(e){}}
+function pop(w){const e=document.createElement('div');e.className='pop';e.textContent=w;document.body.appendChild(e);setTimeout(()=>e.remove(),1300)}
 function lab(){sel=[];chips.innerHTML='';$('#lt').textContent=MN[M];
 $('#act').style.display=M==='v'?'block':'none';$('#act').innerHTML='<b>Dãy hoạt động:</b> K, Na, Mg, Al, Zn, Fe, Pb, (H), Cu, Ag, Au<br>Kim loại đứng trước H đẩy được H khỏi axit. Kim loại đứng trước đẩy được kim loại đứng sau khỏi muối.';
 CH[M].forEach(id=>{const b=document.createElement('button');b.className='chip';b.textContent=sub(id);b.setAttribute('aria-pressed','false');b.dataset.id=id;
 b.onclick=()=>{if(sel.includes(id))sel=sel.filter(x=>x!==id);else{if(sel.length==2)sel.shift();sel.push(id)}
-[...chips.children].forEach(c=>c.setAttribute('aria-pressed',sel.includes(c.dataset.id)));$('#mix').disabled=sel.length<2};chips.appendChild(b)});
-clr();$('#mix').disabled=true;$('#res').innerHTML='<p class="hint">Chọn đủ 2 chất rồi bấm Trộn.</p>'}
-function clr(){$('#bk').querySelectorAll('.bub').forEach(x=>x.remove());$('#bk').classList.remove('sk');$('#ppt').style.height='0';$('#liq').style.background='#bfe6ef';$('#face').textContent='🙂'}
+[...chips.children].forEach(c=>c.setAttribute('aria-pressed',sel.includes(c.dataset.id)));$('#mix').disabled=sel.length<2;
+say(sel.length<2?'Chọn thêm một chất nữa nhé!':'Sẵn sàng rồi, bấm Trộn nào! 🚀','🧑‍🔬')};chips.appendChild(b)});
+clr();$('#mix').disabled=true;$('#res').innerHTML='<p class="hint">Chọn đủ 2 chất rồi bấm Trộn.</p>';say('Chọn 2 chất rồi bấm Trộn nhé!','🧑‍🔬')}
+function clr(){clearTimeout(mt);const bk=$('#bk');bk.querySelectorAll('.bub,.dot2').forEach(x=>x.remove());bk.classList.remove('sk','jump');
+$('#labc').classList.remove('shk');$('#bal').classList.remove('inflate');$('#fl').classList.remove('on');$('#th').classList.remove('hot');
+$('#stg').querySelectorAll('.dropc').forEach(x=>x.remove());$('#ppt').style.height='0';$('#liq').style.background='#bfe6ef';$('#face').textContent='🙂'}
 $('#rst').onclick=lab;
+$('#snd').onclick=()=>{SND=!SND;$('#snd').textContent=SND?'🔊':'🔇';if(SND)beep('drop')};
+function bubbles(n){const bk=$('#bk');for(let i=0;i<n;i++){const b=document.createElement('i');b.className='bub';const z=5+Math.random()*9;b.style.cssText=`left:${8+Math.random()*110}px;width:${z}px;height:${z}px;animation-delay:${Math.random()*1.5}s`;bk.appendChild(b)}}
+function dots(c,n){const bk=$('#bk');for(let i=0;i<n;i++){const d=document.createElement('i');d.className='dot2';d.style.cssText=`left:${10+Math.random()*115}px;background:${c};animation-delay:${Math.random()*.9}s`;bk.appendChild(d)}}
+function hot(){$('#th').classList.add('hot')}
+function dropIn(){const L=[34,54];sel.forEach((id,i)=>{const d=document.createElement('span');d.className='dropc';d.textContent=sub(id);d.style.left=L[i]+'%';d.style.animationDelay=(i*.15)+'s';$('#stg').appendChild(d)});beep('drop')}
+const WD={gas:'XÌ XÌ!',ppt:'LẮNG ĐỌNG!',fire:'PHỪNG!',boom:'BÙM!!',fade:'BIẾN MẤT!',steam:'NÓNG NÓNG!',smell:'THƠM QUÁ!',foam:'BỌT BỌT!',none:'ÊM RU~',no:'KHÔNG GÌ?'};
+const FE={gas:'🤩',ppt:'🧐',fire:'😎',boom:'🙉',fade:'🪄',steam:'🥵',smell:'😋',foam:'🧼',none:'😌',no:'🤷'};
+function act(r){
+  const bk=$('#bk');
+  if(!r){$('#face').textContent='😐';const cu=sel.includes('Cu')&&(sel.includes('HCl')||sel.includes('H2SO4'));
+    $('#res').innerHTML=`<div class="eq">Không có phản ứng</div><div class="mol"><span>🧑‍🔬</span><p style="margin:0">${cu?'Đồng đứng sau H trong dãy hoạt động nên không đẩy được H khỏi axit.':'Hai chất này không phản ứng ở điều kiện thường. Thử cặp khác nhé!'}</p></div>`;
+    say(rnd(JK.no),FE.no);pop(WD.no);beep('no');return}
+  const fx=r.fx;
+  $('#liq').style.background=fx==='fade'?'#ffa94d':r.col;
+  if(fx==='fade')setTimeout(()=>$('#liq').style.background=r.col,1300);
+  $('#face').textContent=r.f;
+  if(fx==='gas'){bubbles(24);bk.classList.add('sk');$('#bal').classList.add('inflate');spawn('🫧',4)}
+  if(fx==='ppt'){const p=$('#ppt');p.style.background=r.pc;requestAnimationFrame(()=>p.style.height='30%');dots(r.pc,20);spawn('✨',4)}
+  if(fx==='fire'){$('#fl').classList.add('on');setTimeout(()=>$('#fl').classList.remove('on'),3800);spawn('🔥',6);spawn('✨',6);hot()}
+  if(fx==='boom'){spawn('💥',6);spawn('⚡',4);bk.classList.add('jump');$('#labc').classList.add('shk')}
+  if(fx==='steam'){spawn('💨',7);hot()}
+  if(fx==='smell')spawn('🍍',6);
+  if(fx==='foam'){spawn('🫧',10);bubbles(14)}
+  if(fx==='none'&&/Trung hoà|Toả/.test(r.t))hot();
+  const key=[...sel].sort().join('+');
+  say(SJ[key]||rnd(JK[fx]||JK.none),FE[fx]||'🤩');pop(WD[fx]||'WOW!');beep(fx);
+  $('#res').innerHTML=`<span class="tag">${r.t}</span><div class="eq">${sub(r.eq)}</div><div class="mol"><span>🧑‍🔬</span><div><b>Hiện tượng:</b> ${sub(r.o)}<br><b>Vì sao?</b> ${sub(r.n)}</div></div>`}
 $('#mix').onclick=()=>{clr();const r=R.find(x=>x.m===M&&sel.every(s=>x.r.includes(s)));
-if(!r){$('#face').textContent='😐';const cu=sel.includes('Cu')&&(sel.includes('HCl')||sel.includes('H2SO4'));
-$('#res').innerHTML=`<div class="eq">Không có phản ứng</div><div class="mol"><span>🧑‍🔬</span><p style="margin:0">${cu?'Đồng đứng sau H trong dãy hoạt động nên không đẩy được H khỏi axit.':'Hai chất này không phản ứng ở điều kiện thường. Thử cặp khác nhé!'}</p></div>`;return}
-const bk=$('#bk');$('#liq').style.background=r.fx==='fade'?'#ffa94d':r.col;
-if(r.fx==='fade')setTimeout(()=>$('#liq').style.background=r.col,1300);
-$('#face').textContent=r.f;
-if(r.fx==='gas'){for(let i=0;i<16;i++){const b=document.createElement('i');b.className='bub';b.style.left=(8+Math.random()*110)+'px';b.style.animationDelay=Math.random()*1.5+'s';bk.appendChild(b)}bk.classList.add('sk')}
-if(r.fx==='ppt'){const p=$('#ppt');p.style.background=r.pc;requestAnimationFrame(()=>p.style.height='30%')}
-if(r.fx==='fire'){spawn('🔥',6);spawn('✨',6)}
-if(r.fx==='boom'){spawn('💥',5);bk.classList.add('sk')}
-if(r.fx==='steam')spawn('💨',6);if(r.fx==='smell')spawn('🍍',6);if(r.fx==='foam')spawn('🫧',9);
-if(r.fx==='ppt')spawn('✨',4);
-$('#res').innerHTML=`<span class="tag">${r.t}</span><div class="eq">${sub(r.eq)}</div><div class="mol"><span>🧑‍🔬</span><div><b>Hiện tượng:</b> ${sub(r.o)}<br><b>Vì sao?</b> ${sub(r.n)}</div></div>`};
+  const b=$('#mix');b.disabled=true;dropIn();say('Cho vào cốc nào... 3, 2, 1!','🧑‍🔬');
+  mt=setTimeout(()=>{b.disabled=sel.length<2;act(r)},800)};
 
 /* Câu hỏi */
 const Q=[
